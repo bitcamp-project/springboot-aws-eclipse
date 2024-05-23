@@ -1,6 +1,8 @@
 package com.coeding.springboot.aws.web;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,5 +30,21 @@ public class HelloApiControllerTest {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Test
+	public void helloDto() {
+		String name = "testHelloResponseDto";
+		int count = 1;
+		
+		try {
+			mvc.perform(get("/api/hello/dto").param("name", name).param("count", String.valueOf(count)))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.name", is(name)))
+			.andExpect(jsonPath("$.count", is(count)));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
